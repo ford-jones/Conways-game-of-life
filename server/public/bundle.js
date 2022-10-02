@@ -113,13 +113,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ gameTrigger)
 /* harmony export */ });
 function gameTrigger() {
-  var cells = document.getElementsByTagName('td');
-  console.log('from document (unlooped): ', cells);
+  document.addEventListener('click', onClick); //start game
 
-  for (var i = 0; i < cells.length; i++) {
-    var cell = cells[i];
-    console.log('looped: ', cell);
-    console.log('index: ', i);
+  function onClick(e) {
+    console.log('hit!');
+    var cells = document.getElementsByTagName('td'); // console.log('from document (unlooped): ', cells)
+
+    for (var i = 0; i < cells.length; i++) {
+      var cell = cells[i];
+
+      if (e.target === cell) {
+        console.log(cell);
+        console.log(i);
+        cell.style.backgroundColor = 'red';
+      } else {
+        console.error();
+      }
+    }
   }
 }
 gameTrigger();
