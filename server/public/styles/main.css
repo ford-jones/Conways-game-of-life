@@ -1,0 +1,19 @@
+.header{
+  text-align: center;
+}
+
+.table{
+  height: 400px;
+  width: 400px;
+  border: 2px solid black;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tableCell{
+  border: 2px solid black;
+}
+
+.footer{
+  text-align: center;
+}
