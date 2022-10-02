@@ -112,46 +112,56 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ gameTrigger)
 /* harmony export */ });
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function gameTrigger() {
   var cells = document.getElementsByTagName('td');
-  var activeCells = [];
-  var status = false; //start game
-
-  document.addEventListener('click', onClick);
+  var cellArr = [];
+  var cellStatus = false;
+  document.addEventListener('click', onClick); //  Changes the color of a table cell to red on click
 
   function onClick(e) {
-    console.log('active cells: ', activeCells);
-    console.log('hit!');
+    console.log('cell array: ', cellArr);
 
     for (var i = 0; i < cells.length; i++) {
       var cell = cells[i];
 
       if (e.target === cell) {
-        console.log(cell);
+        console.log('selected cell: ', cell);
         console.log(i);
         cell.style.backgroundColor = 'red';
-      }
-
-      if (cell.style.backgroundColor === 'red') {
-        var activatedCells = [].concat(activeCells, [cell]);
       } else {
         console.error();
       }
-    }
-  } // function checkStatus() {
-  //   for(let i = 0; i < cells.length; i++) {
-  //     let cell = cells[i]
-  //     console.log('activated cells: ', [...activeCells, cell])
-  //   }
-  // }
-  // checkStatus()
-  // Discover the active cells and assign them to a variable so they can be accessed
-  // let cellTest = document.getElementById('tableCell')
-  // let cellStatus = cellTest.map((cell) => {
-  //   console.log(cell)
-  //   return cell.style.backgroundColor = 'red'
-  // })
+    } //  Loop through the table and find the cells that are red, put them into a new array
 
+
+    function checkStatus() {
+      var getCells = document.getElementsByTagName('td');
+
+      for (var j = 0; j < getCells.length; j++) {
+        var activeCell = getCells[j];
+
+        if (activeCell.style.backgroundColor === 'red') {
+          var activeCells = _objectSpread(_objectSpread({}, cellArr), {}, {
+            activeCell: activeCell
+          });
+
+          console.log('activeCells hit!: ', activeCells, j, _typeof(activeCells));
+        } else {
+          console.error();
+        }
+      }
+    }
+
+    checkStatus();
+  }
 }
 gameTrigger();
 
