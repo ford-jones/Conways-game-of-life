@@ -113,11 +113,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ gameTrigger)
 /* harmony export */ });
 function gameTrigger() {
-  document.addEventListener('click', onClick); //start game
+  var cells = document.getElementsByTagName('td');
+  var activeCells = [];
+  var status = false; //start game
+
+  document.addEventListener('click', onClick);
 
   function onClick(e) {
+    console.log('active cells: ', activeCells);
     console.log('hit!');
-    var cells = document.getElementsByTagName('td'); // console.log('from document (unlooped): ', cells)
 
     for (var i = 0; i < cells.length; i++) {
       var cell = cells[i];
@@ -126,11 +130,28 @@ function gameTrigger() {
         console.log(cell);
         console.log(i);
         cell.style.backgroundColor = 'red';
+      }
+
+      if (cell.style.backgroundColor === 'red') {
+        var activatedCells = [].concat(activeCells, [cell]);
       } else {
         console.error();
       }
     }
-  }
+  } // function checkStatus() {
+  //   for(let i = 0; i < cells.length; i++) {
+  //     let cell = cells[i]
+  //     console.log('activated cells: ', [...activeCells, cell])
+  //   }
+  // }
+  // checkStatus()
+  // Discover the active cells and assign them to a variable so they can be accessed
+  // let cellTest = document.getElementById('tableCell')
+  // let cellStatus = cellTest.map((cell) => {
+  //   console.log(cell)
+  //   return cell.style.backgroundColor = 'red'
+  // })
+
 }
 gameTrigger();
 
