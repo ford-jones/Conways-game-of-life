@@ -112,25 +112,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ gameTrigger)
 /* harmony export */ });
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function gameTrigger() {
   var cells = document.getElementsByTagName('td');
-  var cellArr = [];
+
+  var cellArr = _toConsumableArray(cells);
+
   var cellStatus = false;
   document.addEventListener('click', onClick); //  Changes the color of a table cell to red on click
 
   function onClick(e) {
-    console.log('cell array: ', cellArr);
-
-    for (var i = 0; i < cells.length; i++) {
-      var cell = cells[i];
+    for (var i = 0; i < cellArr.length; i++) {
+      var cell = cellArr[i];
 
       if (e.target === cell) {
         console.log('selected cell: ', cell);
@@ -139,28 +143,13 @@ function gameTrigger() {
       } else {
         console.error();
       }
-    } //  Loop through the table and find the cells that are red, put them into a new array
+    } //  Get the clicked cells into an array
 
 
-    function checkStatus() {
-      var getCells = document.getElementsByTagName('td');
-
-      for (var j = 0; j < getCells.length; j++) {
-        var activeCell = getCells[j];
-
-        if (activeCell.style.backgroundColor === 'red') {
-          var activeCells = _objectSpread(_objectSpread({}, cellArr), {}, {
-            activeCell: activeCell
-          });
-
-          console.log('activeCells hit!: ', activeCells, j, _typeof(activeCells));
-        } else {
-          console.error();
-        }
-      }
-    }
-
-    checkStatus();
+    var activeCells = cellArr.filter(function (x) {
+      return x.style.backgroundColor === 'red';
+    });
+    console.log('active cells: ', activeCells);
   }
 }
 gameTrigger();
