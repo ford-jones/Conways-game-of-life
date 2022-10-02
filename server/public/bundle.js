@@ -137,8 +137,8 @@ function gameTrigger() {
       var cell = cellArr[i];
 
       if (e.target === cell) {
-        console.log('selected cell: ', cell);
-        console.log(i);
+        // console.log('selected cell: ', cell)
+        console.log('index of selected cell: ', i);
         cell.style.backgroundColor = 'red';
       } else {
         console.error();
