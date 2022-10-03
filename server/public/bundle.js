@@ -135,52 +135,39 @@ function gameTrigger() {
   var cellArr = _toConsumableArray(cells); //  Give each "innactive" cell a boolean value of false
 
 
-  var deadCells = cellArr.map(function (innactiveCell) {
+  var allCells = cellArr.map(function (innactiveCell) {
     return {
       cell: innactiveCell,
       status: false
     };
   });
-  console.log('innactive cells: ', deadCells); // let cellStatus = false
-
   document.addEventListener('click', onClick); //  Changes the color of a table cell to red on click
 
   function onClick(e) {
-    for (var i = 0; i < deadCells.length; i++) {
-      var cell = deadCells[i].cell;
+    console.log('innactive cells: ', allCells);
 
-      if (e.target === cell) {
-        console.log('selected cell: ', cell);
-        console.log('index of selected cell: ', i);
-        cell.style.backgroundColor = 'red';
+    for (var i = 0; i < allCells.length; i++) {
+      var selectedCell = allCells[i].cell;
+
+      if (e.target === selectedCell) {
+        console.log('selected cell: ', selectedCell, allCells[i].status, i);
+        selectedCell.style.backgroundColor = 'red';
+        allCells[i].status = true;
       } else {
         console.error();
       }
-    } //  Get the clicked cells into an array
-    // let clickedCells = deadCells.filter((clicked) => {
-    //   return clicked.style.backgroundColor === 'red'
-    // })
-    // console.log('clicked cells: ', clickedCells)
-    // Give each "active" cell a boolean value of true
-    // let liveCells = clickedCells.map((activeCell) => {
-    //   return {
-    //     cell: activeCell,
-    //     status: true,
-    //   }
-    // })
-    // console.log('activated cells: ', liveCells)
-    // check each cell for a boolean value
-    // for (let z = 0; z < liveCells.length; z++) {
-    //   let checkCell = liveCells[z]
-    //   if (checkCell.status === true) {
-    //     console.log('if true: ', checkCell, z)
-    //   } else if (checkCell.status === false) {
-    //     console.log('if false: ', !checkCell)
-    //   } else {
-    //     console.error()
-    //   }
-    // }
 
+      setTimeout(function () {
+        for (var z = 0; z < allCells.length; z++) {
+          if (allCells[z].status === true) {
+            allCells[z - 2].cell.style.backgroundColor = 'red';
+            allCells[z - 2].status = true;
+          } else {
+            console.error();
+          }
+        }
+      }, 5000);
+    }
   }
 }
 gameTrigger();
