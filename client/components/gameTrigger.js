@@ -20,7 +20,7 @@ export default function gameTrigger() {
 
   //  Changes the color of a table cell to red on click
   function onClick(e) {
-    console.log('innactive cells: ', allCells)
+    console.log('all cells: ', allCells)
     for (let i = 0; i < allCells.length; i++) {
       let selectedCell = allCells[i].cell
       if (e.target === selectedCell) {
@@ -30,6 +30,27 @@ export default function gameTrigger() {
       } else {
         console.error()
       }
+
+      let neighbourNorthWest = allCells[i - 6]
+      let neighbourNorth = allCells[i - 5]
+      let neighbourNorthEast = allCells[i - 4]
+      let neighbourEast = allCells[i + 1]
+      let neighbourSouthEast = allCells[i + 6]
+      let neighbourSouth = allCells[i + 5]
+      let neighbourSouthWest = allCells[i + 4]
+      let neighbourWest = allCells[i - 1]
+
+      let neighbours = [
+        neighbourNorthWest,
+        neighbourNorth,
+        neighbourNorthEast,
+        neighbourEast,
+        neighbourSouthEast,
+        neighbourSouth,
+        neighbourSouthWest,
+        neighbourWest,
+      ]
+      console.log(neighbours)
 
       setTimeout(() => {
         for (let z = 0; z < allCells.length; z++) {
