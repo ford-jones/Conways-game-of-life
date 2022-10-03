@@ -132,14 +132,22 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function gameTrigger() {
   var cells = document.getElementsByTagName('td');
 
-  var cellArr = _toConsumableArray(cells); // let cellStatus = false
+  var cellArr = _toConsumableArray(cells); //  Give each "innactive" cell a boolean value of false
 
+
+  var deadCells = cellArr.map(function (innactiveCell) {
+    return {
+      cell: innactiveCell,
+      status: false
+    };
+  });
+  console.log('innactive cells: ', deadCells); // let cellStatus = false
 
   document.addEventListener('click', onClick); //  Changes the color of a table cell to red on click
 
   function onClick(e) {
-    for (var i = 0; i < cellArr.length; i++) {
-      var cell = cellArr[i];
+    for (var i = 0; i < deadCells.length; i++) {
+      var cell = deadCells[i].cell;
 
       if (e.target === cell) {
         console.log('selected cell: ', cell);
@@ -149,40 +157,30 @@ function gameTrigger() {
         console.error();
       }
     } //  Get the clicked cells into an array
-
-
-    var clickedCells = cellArr.filter(function (clicked) {
-      return clicked.style.backgroundColor === 'red';
-    }); // console.log('clicked cells: ', clickedCells)
+    // let clickedCells = deadCells.filter((clicked) => {
+    //   return clicked.style.backgroundColor === 'red'
+    // })
+    // console.log('clicked cells: ', clickedCells)
     // Give each "active" cell a boolean value of true
+    // let liveCells = clickedCells.map((activeCell) => {
+    //   return {
+    //     cell: activeCell,
+    //     status: true,
+    //   }
+    // })
+    // console.log('activated cells: ', liveCells)
+    // check each cell for a boolean value
+    // for (let z = 0; z < liveCells.length; z++) {
+    //   let checkCell = liveCells[z]
+    //   if (checkCell.status === true) {
+    //     console.log('if true: ', checkCell, z)
+    //   } else if (checkCell.status === false) {
+    //     console.log('if false: ', !checkCell)
+    //   } else {
+    //     console.error()
+    //   }
+    // }
 
-    var liveCells = clickedCells.map(function (activeCell) {
-      return {
-        cell: activeCell,
-        status: true
-      };
-    });
-    console.log('activated cells: ', liveCells); //  Give each "innactive" cell a boolean value of false
-
-    var deadCells = cellArr.map(function (innactiveCell) {
-      return {
-        cell: innactiveCell,
-        status: false
-      };
-    });
-    console.log('innactive cells: ', deadCells); // check each cell for a boolean value
-
-    for (var z = 0; z < liveCells.length; z++) {
-      var checkCell = liveCells[z];
-
-      if (checkCell.status === true) {
-        console.log('if true: ', checkCell, z);
-      } else if (checkCell.status === false) {
-        console.log('if false: ', !checkCell);
-      } else {
-        console.error();
-      }
-    }
   }
 }
 gameTrigger();
