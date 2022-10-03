@@ -52,16 +52,16 @@ export default function gameTrigger() {
       ]
       console.log(neighbours)
 
-      setTimeout(() => {
-        for (let z = 0; z < allCells.length; z++) {
-          if (allCells[z].status === true) {
-            allCells[z - 2].cell.style.backgroundColor = 'red'
-            allCells[z - 2].status = true
-          } else {
-            console.error()
-          }
-        }
-      }, 5000)
+      // setTimeout(() => {
+      //   for (let z = 0; z < allCells.length; z++) {
+      //     if (allCells[z].status === true) {
+      //       allCells[z - 2].cell.style.backgroundColor = 'red'
+      //       allCells[z - 2].status = true
+      //     } else {
+      //       console.error()
+      //     }
+      //   }
+      // }, 5000)
     }
   }
 }

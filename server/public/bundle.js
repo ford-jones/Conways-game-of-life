@@ -166,17 +166,16 @@ function gameTrigger() {
       var neighbourSouthWest = allCells[i + 4];
       var neighbourWest = allCells[i - 1];
       var neighbours = [neighbourNorthWest, neighbourNorth, neighbourNorthEast, neighbourEast, neighbourSouthEast, neighbourSouth, neighbourSouthWest, neighbourWest];
-      console.log(neighbours);
-      setTimeout(function () {
-        for (var z = 0; z < allCells.length; z++) {
-          if (allCells[z].status === true) {
-            allCells[z - 2].cell.style.backgroundColor = 'red';
-            allCells[z - 2].status = true;
-          } else {
-            console.error();
-          }
-        }
-      }, 5000);
+      console.log(neighbours); // setTimeout(() => {
+      //   for (let z = 0; z < allCells.length; z++) {
+      //     if (allCells[z].status === true) {
+      //       allCells[z - 2].cell.style.backgroundColor = 'red'
+      //       allCells[z - 2].status = true
+      //     } else {
+      //       console.error()
+      //     }
+      //   }
+      // }, 5000)
     }
   }
 }
