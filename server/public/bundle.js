@@ -124,12 +124,17 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
+/*---------------------- RULES ------------------------*/
+// Any live cell with fewer than two live neighbours dies (referred to as underpopulation or exposure).
+// Any live cell with more than three live neighbours dies (referred to as overpopulation or overcrowding).
+// Any live cell with two or three live neighbours lives, unchanged, to the next generation.
+// Any dead cell with exactly three live neighbours will come to life.
 function gameTrigger() {
   var cells = document.getElementsByTagName('td');
 
-  var cellArr = _toConsumableArray(cells);
+  var cellArr = _toConsumableArray(cells); // let cellStatus = false
 
-  var cellStatus = false;
+
   document.addEventListener('click', onClick); //  Changes the color of a table cell to red on click
 
   function onClick(e) {
@@ -146,10 +151,18 @@ function gameTrigger() {
     } //  Get the clicked cells into an array
 
 
-    var activeCells = cellArr.filter(function (x) {
+    var clickedCells = cellArr.filter(function (x) {
       return x.style.backgroundColor === 'red';
     });
-    console.log('active cells: ', activeCells);
+    console.log('clicked cells: ', clickedCells); // Give each "active" cell a boolean value of true
+
+    var activeCells = clickedCells.map(function (activeCell) {
+      return {
+        activeCell: activeCell,
+        status: true
+      };
+    });
+    console.log('activated cells: ', activeCells);
   }
 }
 gameTrigger();
