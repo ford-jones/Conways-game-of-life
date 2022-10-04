@@ -7,53 +7,63 @@
 export default function gameTrigger() {
   const cells = document.getElementsByTagName('td')
   let cellArr = [...cells]
-  // let cellStatus = false
+
+  //  Give each "innactive" cell a boolean value of false
+  let allCells = cellArr.map((innactiveCell) => {
+    return {
+      cell: innactiveCell,
+      status: false,
+    }
+  })
+
   document.addEventListener('click', onClick)
 
-  //  Changes the color of a table cell to red on click
+  //  Trigger the game mechanics
+  //  Change cell status to true and color to red on click
   function onClick(e) {
-    for (let i = 0; i < cellArr.length; i++) {
-      let cell = cellArr[i]
-      if (e.target === cell) {
-        console.log('selected cell: ', cell)
-        console.log('index of selected cell: ', i)
-        cell.style.backgroundColor = 'red'
-      } else {
-        console.error()
+    console.log('all cells: ', allCells)
+    for (let i = 0; i < allCells.length; i++) {
+      let selectedCell = allCells[i].cell
+
+      if (e.target === selectedCell) {
+        allCells[i].status = true
       }
-    }
+      if (allCells[i].status === true) {
+        selectedCell.style.backgroundColor = 'red'
 
-    //  Get the clicked cells into an array
-    let clickedCells = cellArr.filter((clicked) => {
-      return clicked.style.backgroundColor === 'red'
-    })
-    // console.log('clicked cells: ', clickedCells)
+        let neighbourNorthWest = allCells[i - 6]
+        let neighbourNorth = allCells[i - 5]
+        let neighbourNorthEast = allCells[i - 4]
+        let neighbourEast = allCells[i + 1]
+        let neighbourSouthEast = allCells[i + 6]
+        let neighbourSouth = allCells[i + 5]
+        let neighbourSouthWest = allCells[i + 4]
+        let neighbourWest = allCells[i - 1]
 
-    // Give each "active" cell a boolean value of true
-    let liveCells = clickedCells.map((activeCell) => {
-      return {
-        cell: activeCell,
-        status: true,
-      }
-    })
-    console.log('activated cells: ', liveCells)
+        let neighbours = [
+          neighbourNorthWest,
+          neighbourNorth,
+          neighbourNorthEast,
+          neighbourEast,
+          neighbourSouthEast,
+          neighbourSouth,
+          neighbourSouthWest,
+          neighbourWest,
+        ]
 
-    //  Give each "innactive" cell a boolean value of false
-    let deadCells = cellArr.map((innactiveCell) => {
-      return {
-        cell: innactiveCell,
-        status: false,
-      }
-    })
-    console.log('innactive cells: ', deadCells)
-
-    // check each cell for a boolean value
-    for (let z = 0; z < liveCells.length; z++) {
-      let checkCell = liveCells[z]
-      if (checkCell.status === true) {
-        console.log('if true: ', checkCell, z)
-      } else if (checkCell.status === false) {
-        console.log('if false: ', !checkCell)
+        // 1. Any live cell with fewer than two live neighbours dies (referred to as underpopulation or exposure).
+        setTimeout(() => {
+          for (let x = 0; x < neighbours.length; x++) {
+            let neighbour = neighbours[x]
+            console.log('neighbour: ', neighbour, x)
+            if (neighbour.status === true < 2) {
+              selectedCell.style.backgroundColor = 'white'
+              allCells[i].status = false
+            } else {
+              console.error()
+            }
+          }
+        }, 2000)
       } else {
         console.error()
       }

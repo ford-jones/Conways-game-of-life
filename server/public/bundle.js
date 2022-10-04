@@ -132,56 +132,60 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function gameTrigger() {
   var cells = document.getElementsByTagName('td');
 
-  var cellArr = _toConsumableArray(cells); // let cellStatus = false
+  var cellArr = _toConsumableArray(cells); //  Give each "innactive" cell a boolean value of false
 
 
-  document.addEventListener('click', onClick); //  Changes the color of a table cell to red on click
+  var allCells = cellArr.map(function (innactiveCell) {
+    return {
+      cell: innactiveCell,
+      status: false
+    };
+  });
+  document.addEventListener('click', onClick); //  Trigger the game mechanics
+  //  Change cell status to true and color to red on click
 
   function onClick(e) {
-    for (var i = 0; i < cellArr.length; i++) {
-      var cell = cellArr[i];
+    console.log('all cells: ', allCells);
 
-      if (e.target === cell) {
-        console.log('selected cell: ', cell);
-        console.log('index of selected cell: ', i);
-        cell.style.backgroundColor = 'red';
+    var _loop = function _loop(i) {
+      var selectedCell = allCells[i].cell;
+
+      if (e.target === selectedCell) {
+        allCells[i].status = true;
+      }
+
+      if (allCells[i].status === true) {
+        selectedCell.style.backgroundColor = 'red';
+        var neighbourNorthWest = allCells[i - 6];
+        var neighbourNorth = allCells[i - 5];
+        var neighbourNorthEast = allCells[i - 4];
+        var neighbourEast = allCells[i + 1];
+        var neighbourSouthEast = allCells[i + 6];
+        var neighbourSouth = allCells[i + 5];
+        var neighbourSouthWest = allCells[i + 4];
+        var neighbourWest = allCells[i - 1];
+        var neighbours = [neighbourNorthWest, neighbourNorth, neighbourNorthEast, neighbourEast, neighbourSouthEast, neighbourSouth, neighbourSouthWest, neighbourWest]; // 1. Any live cell with fewer than two live neighbours dies (referred to as underpopulation or exposure).
+
+        setTimeout(function () {
+          for (var x = 0; x < neighbours.length; x++) {
+            var neighbour = neighbours[x];
+            console.log('neighbour: ', neighbour, x);
+
+            if (neighbour.status === true < 2) {
+              selectedCell.style.backgroundColor = 'white';
+              allCells[i].status = false;
+            } else {
+              console.error();
+            }
+          }
+        }, 2000);
       } else {
         console.error();
       }
-    } //  Get the clicked cells into an array
+    };
 
-
-    var clickedCells = cellArr.filter(function (clicked) {
-      return clicked.style.backgroundColor === 'red';
-    }); // console.log('clicked cells: ', clickedCells)
-    // Give each "active" cell a boolean value of true
-
-    var liveCells = clickedCells.map(function (activeCell) {
-      return {
-        cell: activeCell,
-        status: true
-      };
-    });
-    console.log('activated cells: ', liveCells); //  Give each "innactive" cell a boolean value of false
-
-    var deadCells = cellArr.map(function (innactiveCell) {
-      return {
-        cell: innactiveCell,
-        status: false
-      };
-    });
-    console.log('innactive cells: ', deadCells); // check each cell for a boolean value
-
-    for (var z = 0; z < liveCells.length; z++) {
-      var checkCell = liveCells[z];
-
-      if (checkCell.status === true) {
-        console.log('if true: ', checkCell, z);
-      } else if (checkCell.status === false) {
-        console.log('if false: ', !checkCell);
-      } else {
-        console.error();
-      }
+    for (var i = 0; i < allCells.length; i++) {
+      _loop(i);
     }
   }
 }
