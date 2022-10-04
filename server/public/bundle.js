@@ -141,41 +141,51 @@ function gameTrigger() {
       status: false
     };
   });
-  document.addEventListener('click', onClick); //  Changes the color of a table cell to red on click
+  document.addEventListener('click', onClick); //  Trigger the game mechanics
+  //  Change cell status to true and color to red on click
 
   function onClick(e) {
     console.log('all cells: ', allCells);
 
-    for (var i = 0; i < allCells.length; i++) {
+    var _loop = function _loop(i) {
       var selectedCell = allCells[i].cell;
 
       if (e.target === selectedCell) {
-        console.log('selected cell: ', selectedCell, allCells[i].status, i);
-        selectedCell.style.backgroundColor = 'red';
         allCells[i].status = true;
+      }
+
+      if (allCells[i].status === true) {
+        selectedCell.style.backgroundColor = 'red';
+        var neighbourNorthWest = allCells[i - 6];
+        var neighbourNorth = allCells[i - 5];
+        var neighbourNorthEast = allCells[i - 4];
+        var neighbourEast = allCells[i + 1];
+        var neighbourSouthEast = allCells[i + 6];
+        var neighbourSouth = allCells[i + 5];
+        var neighbourSouthWest = allCells[i + 4];
+        var neighbourWest = allCells[i - 1];
+        var neighbours = [neighbourNorthWest, neighbourNorth, neighbourNorthEast, neighbourEast, neighbourSouthEast, neighbourSouth, neighbourSouthWest, neighbourWest]; // 1. Any live cell with fewer than two live neighbours dies (referred to as underpopulation or exposure).
+
+        setTimeout(function () {
+          for (var x = 0; x < neighbours.length; x++) {
+            var neighbour = neighbours[x];
+            console.log('neighbour: ', neighbour, x);
+
+            if (neighbour.status === true < 2) {
+              selectedCell.style.backgroundColor = 'white';
+              allCells[i].status = false;
+            } else {
+              console.error();
+            }
+          }
+        }, 2000);
       } else {
         console.error();
       }
+    };
 
-      var neighbourNorthWest = allCells[i - 6];
-      var neighbourNorth = allCells[i - 5];
-      var neighbourNorthEast = allCells[i - 4];
-      var neighbourEast = allCells[i + 1];
-      var neighbourSouthEast = allCells[i + 6];
-      var neighbourSouth = allCells[i + 5];
-      var neighbourSouthWest = allCells[i + 4];
-      var neighbourWest = allCells[i - 1];
-      var neighbours = [neighbourNorthWest, neighbourNorth, neighbourNorthEast, neighbourEast, neighbourSouthEast, neighbourSouth, neighbourSouthWest, neighbourWest];
-      console.log(neighbours); // setTimeout(() => {
-      //   for (let z = 0; z < allCells.length; z++) {
-      //     if (allCells[z].status === true) {
-      //       allCells[z - 2].cell.style.backgroundColor = 'red'
-      //       allCells[z - 2].status = true
-      //     } else {
-      //       console.error()
-      //     }
-      //   }
-      // }, 5000)
+    for (var i = 0; i < allCells.length; i++) {
+      _loop(i);
     }
   }
 }
