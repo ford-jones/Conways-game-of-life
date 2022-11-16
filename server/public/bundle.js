@@ -145,14 +145,26 @@ function gameTrigger() {
   //  Change cell status to true and color to red on click
 
   function onClick(e) {
-    console.log('all cells: ', allCells);
-
     var _loop = function _loop(i) {
       var tableCell = allCells[i].cell;
       var cellStatus = allCells[i].status;
 
       if (e.target === tableCell) {
         cellStatus = true;
+
+        var _loop2 = function _loop2(j) {
+          var rng = Math.floor(Math.random() * allCells.length);
+          var randomCells = allCells.find(function (x, i) {
+            return i === rng;
+          });
+          console.log(randomCells);
+          randomCells.cell.style.backgroundColor = 'red';
+          randomCells.status = true;
+        };
+
+        for (var j = 0; j < 5; j++) {
+          _loop2(j);
+        }
       }
 
       if (cellStatus === true) {
@@ -169,8 +181,7 @@ function gameTrigger() {
 
         setTimeout(function () {
           for (var x = 0; x < neighbours.length; x++) {
-            var neighbour = neighbours[x];
-            console.log('neighbour: ', neighbour, x);
+            var neighbour = neighbours[x]; // console.log('neighbour: ', neighbour, x)
 
             if (neighbour.status === false) {
               tableCell.style.backgroundColor = 'white';
@@ -185,6 +196,7 @@ function gameTrigger() {
       }
     };
 
+    // console.log('all cells: ', allCells)
     for (var i = 0; i < allCells.length; i++) {
       _loop(i);
     }

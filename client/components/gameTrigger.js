@@ -21,13 +21,22 @@ export default function gameTrigger() {
   //  Trigger the game mechanics
   //  Change cell status to true and color to red on click
   function onClick(e) {
-    console.log('all cells: ', allCells)
+    // console.log('all cells: ', allCells)
+
     for (let i = 0; i < allCells.length; i++) {
       let tableCell = allCells[i].cell
       let cellStatus = allCells[i].status
 
       if (e.target === tableCell) {
         cellStatus = true
+
+        for (let j = 0; j < 5; j++) {
+          let rng = Math.floor(Math.random() * allCells.length)
+          let randomCells = allCells.find((x, i) => i === rng)
+          console.log(randomCells)
+          randomCells.cell.style.backgroundColor = 'red'
+          randomCells.status = true
+        }
       }
       if (cellStatus === true) {
         tableCell.style.backgroundColor = 'red'
@@ -56,7 +65,7 @@ export default function gameTrigger() {
         setTimeout(() => {
           for (let x = 0; x < neighbours.length; x++) {
             let neighbour = neighbours[x]
-            console.log('neighbour: ', neighbour, x)
+            // console.log('neighbour: ', neighbour, x)
             if (neighbour.status === false) {
               tableCell.style.backgroundColor = 'white'
               cellStatus = false
