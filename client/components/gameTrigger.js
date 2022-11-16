@@ -23,13 +23,14 @@ export default function gameTrigger() {
   function onClick(e) {
     console.log('all cells: ', allCells)
     for (let i = 0; i < allCells.length; i++) {
-      let selectedCell = allCells[i].cell
+      let tableCell = allCells[i].cell
+      let cellStatus = allCells[i].status
 
-      if (e.target === selectedCell) {
-        allCells[i].status = true
+      if (e.target === tableCell) {
+        cellStatus = true
       }
-      if (allCells[i].status === true) {
-        selectedCell.style.backgroundColor = 'red'
+      if (cellStatus === true) {
+        tableCell.style.backgroundColor = 'red'
 
         let neighbourNorthWest = allCells[i - 6]
         let neighbourNorth = allCells[i - 5]
@@ -56,9 +57,9 @@ export default function gameTrigger() {
           for (let x = 0; x < neighbours.length; x++) {
             let neighbour = neighbours[x]
             console.log('neighbour: ', neighbour, x)
-            if (neighbour.status === true < 2) {
-              selectedCell.style.backgroundColor = 'white'
-              allCells[i].status = false
+            if (neighbour.status === false) {
+              tableCell.style.backgroundColor = 'white'
+              cellStatus = false
             } else {
               console.error()
             }

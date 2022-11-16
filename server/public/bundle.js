@@ -148,14 +148,15 @@ function gameTrigger() {
     console.log('all cells: ', allCells);
 
     var _loop = function _loop(i) {
-      var selectedCell = allCells[i].cell;
+      var tableCell = allCells[i].cell;
+      var cellStatus = allCells[i].status;
 
-      if (e.target === selectedCell) {
-        allCells[i].status = true;
+      if (e.target === tableCell) {
+        cellStatus = true;
       }
 
-      if (allCells[i].status === true) {
-        selectedCell.style.backgroundColor = 'red';
+      if (cellStatus === true) {
+        tableCell.style.backgroundColor = 'red';
         var neighbourNorthWest = allCells[i - 6];
         var neighbourNorth = allCells[i - 5];
         var neighbourNorthEast = allCells[i - 4];
@@ -171,9 +172,9 @@ function gameTrigger() {
             var neighbour = neighbours[x];
             console.log('neighbour: ', neighbour, x);
 
-            if (neighbour.status === true < 2) {
-              selectedCell.style.backgroundColor = 'white';
-              allCells[i].status = false;
+            if (neighbour.status === false) {
+              tableCell.style.backgroundColor = 'white';
+              cellStatus = false;
             } else {
               console.error();
             }
