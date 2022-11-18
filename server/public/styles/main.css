@@ -18,3 +18,8 @@
 .footer{
   text-align: center;
 }
+
+#startButton {
+  position: relative;
+  margin-left: 49%;
+}
