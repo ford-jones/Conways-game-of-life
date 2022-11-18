@@ -132,76 +132,94 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function gameTrigger() {
   var cells = document.getElementsByTagName('td');
 
-  var cellArr = _toConsumableArray(cells); //  Give each "innactive" cell a boolean value of false
+  var cellArr = _toConsumableArray(cells);
 
-
-  var allCells = cellArr.map(function (innactiveCell) {
+  var allCells = cellArr.map(function (innactiveCell, i) {
     return {
       cell: innactiveCell,
-      status: false
+      status: false,
+      id: i
     };
   });
-  document.addEventListener('click', onClick); //  Trigger the game mechanics
-  //  Change cell status to true and color to red on click
+  document.addEventListener('click', onClick);
 
   function onClick(e) {
+    console.log('all cells: ', allCells);
+
     var _loop = function _loop(i) {
-      var tableCell = allCells[i].cell;
-      var cellStatus = allCells[i].status;
+      if (e.target === allCells[i].cell) {
+        allCells[i].status = true;
+        /*------Random cells-----*/
+        // for (let j = 0; j < 5; j++) {
+        //   let rng = Math.floor(Math.random() * allCells.length)
+        //   let randomCells = allCells.find((x, i) => i === rng)
+        //   randomCells.cell.style.backgroundColor = 'red'
+        //   randomCells.status = true
+        // }
 
-      if (e.target === tableCell) {
-        cellStatus = true;
-
-        var _loop2 = function _loop2(j) {
-          var rng = Math.floor(Math.random() * allCells.length);
-          var randomCells = allCells.find(function (x, i) {
-            return i === rng;
-          });
-          console.log(randomCells);
-          randomCells.cell.style.backgroundColor = 'red';
-          randomCells.status = true;
-        };
-
-        for (var j = 0; j < 5; j++) {
-          _loop2(j);
-        }
+        /*-----------------------*/
       }
 
-      if (cellStatus === true) {
-        tableCell.style.backgroundColor = 'red';
-        var neighbourNorthWest = allCells[i - 6];
-        var neighbourNorth = allCells[i - 5];
-        var neighbourNorthEast = allCells[i - 4];
-        var neighbourEast = allCells[i + 1];
-        var neighbourSouthEast = allCells[i + 6];
-        var neighbourSouth = allCells[i + 5];
-        var neighbourSouthWest = allCells[i + 4];
-        var neighbourWest = allCells[i - 1];
-        var neighbours = [neighbourNorthWest, neighbourNorth, neighbourNorthEast, neighbourEast, neighbourSouthEast, neighbourSouth, neighbourSouthWest, neighbourWest]; // 1. Any live cell with fewer than two live neighbours dies (referred to as underpopulation or exposure).
+      if (allCells[i].status === true) {
+        allCells[i].cell.style.backgroundColor = 'red'; // 1. Any live cell with fewer than two live neighbours dies (referred to as underpopulation or exposure).
+      } else {
+        console.error();
+      }
 
-        setTimeout(function () {
-          for (var x = 0; x < neighbours.length; x++) {
-            var neighbour = neighbours[x]; // console.log('neighbour: ', neighbour, x)
+      var selectedCells = allCells.filter(function (x) {
+        return x.status === true;
+      });
+      console.log(selectedCells);
+      var neighbourNorthWest = allCells[i - 6];
+      var neighbourNorth = allCells[i - 5];
+      var neighbourNorthEast = allCells[i - 4];
+      var neighbourEast = allCells[i + 1];
+      var neighbourSouthEast = allCells[i + 6];
+      var neighbourSouth = allCells[i + 5];
+      var neighbourSouthWest = allCells[i + 4];
+      var neighbourWest = allCells[i - 1];
+      var neighbours = [neighbourNorthWest, neighbourNorth, neighbourNorthEast, neighbourEast, neighbourSouthEast, neighbourSouth, neighbourSouthWest, neighbourWest]; // eslint-disable-next-line no-inner-declarations
 
-            if (neighbour.status === false) {
-              tableCell.style.backgroundColor = 'white';
-              cellStatus = false;
+      function startGame() {
+        setInterval(function () {
+          for (var z = 0; z < neighbours.length; z++) {
+            var neighbour = neighbours[z];
+
+            if (neighbour == undefined) {
+              neighbour = {
+                cell: null,
+                status: false,
+                id: null
+              };
+            }
+
+            console.log('neighbours: ', neighbours);
+
+            if (2 <= neighbour.status == true) {
+              allCells[i].status = true;
+            }
+
+            if (allCells[i].status == false) {
+              allCells[i].cell.style.backgroundColor = 'white';
+            } else if (2 > neighbour.status == true) {
+              allCells[i].status = false;
             } else {
               console.error();
             }
           }
-        }, 2000);
-      } else {
-        console.error();
+        }, 3000);
       }
+
+      var startButton = document.getElementById('startButton');
+      startButton.addEventListener('click', startGame);
     };
 
-    // console.log('all cells: ', allCells)
     for (var i = 0; i < allCells.length; i++) {
       _loop(i);
     }
   }
-}
+} // }
+
 gameTrigger();
 
 /***/ }),
