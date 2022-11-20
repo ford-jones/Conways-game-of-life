@@ -144,8 +144,6 @@ function gameTrigger() {
   document.addEventListener('click', onClick);
 
   function onClick(e) {
-    console.log('all cells: ', allCells);
-
     var _loop = function _loop(i) {
       if (e.target === allCells[i].cell) {
         allCells[i].status = true;
@@ -161,61 +159,104 @@ function gameTrigger() {
       }
 
       if (allCells[i].status === true) {
-        allCells[i].cell.style.backgroundColor = 'red'; // 1. Any live cell with fewer than two live neighbours dies (referred to as underpopulation or exposure).
+        allCells[i].cell.style.backgroundColor = 'red';
       } else {
         console.error();
       }
 
-      var selectedCells = allCells.filter(function (x) {
+      var locateClicks = allCells.filter(function (x) {
         return x.status === true;
-      });
-      console.log('plural: ', selectedCells);
-      selectedCells.forEach(function (cell) {
-        var findNorth = cell.id - 5;
-        var northNeighbour = allCells.find(function (x) {
-          return x.id === findNorth;
-        });
-        console.log('north: ', northNeighbour);
-        console.log('singular: ', cell);
-      });
-      var neighbourNorthWest = allCells[i - 6];
-      var neighbourNorth = allCells[i - 5];
-      var neighbourNorthEast = allCells[i - 4];
-      var neighbourEast = allCells[i + 1];
-      var neighbourSouthEast = allCells[i + 6];
-      var neighbourSouth = allCells[i + 5];
-      var neighbourSouthWest = allCells[i + 4];
-      var neighbourWest = allCells[i - 1];
-      var neighbours = [neighbourNorthWest, neighbourNorth, neighbourNorthEast, neighbourEast, neighbourSouthEast, neighbourSouth, neighbourSouthWest, neighbourWest]; // eslint-disable-next-line no-inner-declarations
+      }); // let neighbourNorthWest = allCells[i - 6]
+      // let neighbourNorth = allCells[i - 5]
+      // let neighbourNorthEast = allCells[i - 4]
+      // let neighbourEast = allCells[i + 1]
+      // let neighbourSouthEast = allCells[i + 6]
+      // let neighbourSouth = allCells[i + 5]
+      // let neighbourSouthWest = allCells[i + 4]
+      // let neighbourWest = allCells[i - 1]
+      // let neighbours = [
+      //   neighbourNorthWest,
+      //   neighbourNorth,
+      //   neighbourNorthEast,
+      //   neighbourEast,
+      //   neighbourSouthEast,
+      //   neighbourSouth,
+      //   neighbourSouthWest,
+      //   neighbourWest,
+      // ]
+      // eslint-disable-next-line no-inner-declarations
 
       function startGame() {
-        setInterval(function () {
-          for (var z = 0; z < neighbours.length; z++) {
-            var neighbour = neighbours[z];
+        var selectedCells = locateClicks.map(function (x) {
+          x.status === true;
+          return x;
+        });
+        selectedCells.forEach(function (y) {
+          var findNW = y.id - 6;
+          var findN = y.id - 5;
+          var findNE = y.id - 4;
+          var findE = y.id + 1;
+          var findSE = y.id + 6;
+          var findS = y.id + 5;
+          var findSW = y.id + 4;
+          var findW = y.id - 1;
+          var N = allCells.find(function (x) {
+            return x.id === findN;
+          });
+          var NW = allCells.find(function (x) {
+            return x.id === findNW;
+          });
+          var NE = allCells.find(function (x) {
+            return x.id === findNE;
+          });
+          var E = allCells.find(function (x) {
+            return x.id === findE;
+          });
+          var SE = allCells.find(function (x) {
+            return x.id === findSE;
+          });
+          var S = allCells.find(function (x) {
+            return x.id === findS;
+          });
+          var SW = allCells.find(function (x) {
+            return x.id === findSW;
+          });
+          var W = allCells.find(function (x) {
+            return x.id === findW;
+          });
+          var neighbours = [NW, N, NE, E, SE, S, SW, W];
+          console.log('neighbours: ', neighbours);
+          console.log('selected cells: ', selectedCells);
+          setInterval(function () {
+            for (var z = 0; z < neighbours.length; z++) {
+              var neighbour = neighbours[z];
 
-            if (neighbour == undefined) {
-              neighbour = {
-                cell: null,
-                status: false,
-                id: null
-              };
+              if (neighbour == undefined) {
+                neighbour = {
+                  cell: null,
+                  status: false,
+                  id: null
+                };
+              } // if (2 > neighbour.status == true) {
+              //   console.log('less than two neighbours are active')
+              //   y.status = false
+              // }
+
+
+              if (2 <= neighbour.status === true) {
+                console.log('2 or more neighbours are active');
+                y.status = true;
+              } //   if (y.status == false) {
+              //     y.cell.style.backgroundColor = 'white'
+              //   }
+              else {
+                console.log('less than two neighbours are active');
+                y.status = false;
+                y.cell.style.backgroundColor = 'white';
+              }
             }
-
-            console.log('neighbours: ', neighbours);
-
-            if (2 <= neighbour.status == true) {
-              allCells[i].status = true;
-            }
-
-            if (allCells[i].status == false) {
-              allCells[i].cell.style.backgroundColor = 'white';
-            } else if (2 > neighbour.status == true) {
-              allCells[i].status = false;
-            } else {
-              console.error();
-            }
-          }
-        }, 3000);
+          }, 5000);
+        });
       }
 
       var startButton = document.getElementById('startButton');
