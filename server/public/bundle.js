@@ -169,7 +169,15 @@ function gameTrigger() {
       var selectedCells = allCells.filter(function (x) {
         return x.status === true;
       });
-      console.log(selectedCells);
+      console.log('plural: ', selectedCells);
+      selectedCells.forEach(function (cell) {
+        var findNorth = cell.id - 5;
+        var northNeighbour = allCells.find(function (x) {
+          return x.id === findNorth;
+        });
+        console.log('north: ', northNeighbour);
+        console.log('singular: ', cell);
+      });
       var neighbourNorthWest = allCells[i - 6];
       var neighbourNorth = allCells[i - 5];
       var neighbourNorthEast = allCells[i - 4];

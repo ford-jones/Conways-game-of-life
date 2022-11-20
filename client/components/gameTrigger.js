@@ -48,7 +48,16 @@ export default function gameTrigger() {
       let selectedCells = allCells.filter((x) => {
         return x.status === true
       })
-      console.log(selectedCells)
+      console.log('plural: ', selectedCells)
+
+      selectedCells.forEach((cell) => {
+        let findNorth = cell.id - 5
+        let northNeighbour = allCells.find((x) => {
+          return x.id === findNorth
+        })
+        console.log('north: ', northNeighbour)
+        console.log('singular: ', cell)
+      })
 
       let neighbourNorthWest = allCells[i - 6]
       let neighbourNorth = allCells[i - 5]
