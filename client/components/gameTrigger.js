@@ -19,8 +19,6 @@ export default function gameTrigger() {
   document.addEventListener('click', onClick)
 
   function onClick(e) {
-    console.log('all cells: ', allCells)
-
     for (let i = 0; i < allCells.length; i++) {
       if (e.target === allCells[i].cell) {
         allCells[i].status = true
@@ -39,8 +37,6 @@ export default function gameTrigger() {
 
       if (allCells[i].status === true) {
         allCells[i].cell.style.backgroundColor = 'red'
-
-        // 1. Any live cell with fewer than two live neighbours dies (referred to as underpopulation or exposure).
       } else {
         console.error()
       }
@@ -48,49 +44,60 @@ export default function gameTrigger() {
       let selectedCells = allCells.filter((x) => {
         return x.status === true
       })
-      console.log(selectedCells)
-
-      let neighbourNorthWest = allCells[i - 6]
-      let neighbourNorth = allCells[i - 5]
-      let neighbourNorthEast = allCells[i - 4]
-      let neighbourEast = allCells[i + 1]
-      let neighbourSouthEast = allCells[i + 6]
-      let neighbourSouth = allCells[i + 5]
-      let neighbourSouthWest = allCells[i + 4]
-      let neighbourWest = allCells[i - 1]
-
-      let neighbours = [
-        neighbourNorthWest,
-        neighbourNorth,
-        neighbourNorthEast,
-        neighbourEast,
-        neighbourSouthEast,
-        neighbourSouth,
-        neighbourSouthWest,
-        neighbourWest,
-      ]
 
       // eslint-disable-next-line no-inner-declarations
       function startGame() {
-        setInterval(() => {
-          for (let z = 0; z < neighbours.length; z++) {
-            let neighbour = neighbours[z]
-            if (neighbour == undefined) {
-              neighbour = { cell: null, status: false, id: null }
+        selectedCells.forEach((y) => {
+          let findNW = y.id - 6
+          let findN = y.id - 5
+          let findNE = y.id - 4
+          let findE = y.id + 1
+          let findSE = y.id + 6
+          let findS = y.id + 5
+          let findSW = y.id + 4
+          let findW = y.id - 1
+
+          let N = allCells.find((x) => {
+            return x.id === findN
+          })
+          let NW = allCells.find((x) => {
+            return x.id === findNW
+          })
+          let NE = allCells.find((x) => {
+            return x.id === findNE
+          })
+          let E = allCells.find((x) => {
+            return x.id === findE
+          })
+          let SE = allCells.find((x) => {
+            return x.id === findSE
+          })
+          let S = allCells.find((x) => {
+            return x.id === findS
+          })
+          let SW = allCells.find((x) => {
+            return x.id === findSW
+          })
+          let W = allCells.find((x) => {
+            return x.id === findW
+          })
+
+          let neighbours = [NW, N, NE, E, SE, S, SW, W]
+
+          setInterval(() => {
+            let trueNeighbours = neighbours.filter((n) => n.status === true)
+            if (trueNeighbours.length >= 2) {
+              console.log('Has two or more active neighbours: ', y)
             }
-            console.log('neighbours: ', neighbours)
-            if (2 <= neighbour.status == true) {
-              allCells[i].status = true
+            if (trueNeighbours.length < 2) {
+              y.status = false
+              console.log('Has less than two active neighbours: ', y)
             }
-            if (allCells[i].status == false) {
-              allCells[i].cell.style.backgroundColor = 'white'
-            } else if (2 > neighbour.status == true) {
-              allCells[i].status = false
-            } else {
-              console.error()
+            if (y.status === false) {
+              y.cell.style.backgroundColor = 'white'
             }
-          }
-        }, 3000)
+          }, 3000)
+        })
       }
       const startButton = document.getElementById('startButton')
       startButton.addEventListener('click', startGame)
