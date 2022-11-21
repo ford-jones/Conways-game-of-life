@@ -41,37 +41,12 @@ export default function gameTrigger() {
         console.error()
       }
 
-      let locateClicks = allCells.filter((x) => {
+      let selectedCells = allCells.filter((x) => {
         return x.status === true
       })
 
-      // let neighbourNorthWest = allCells[i - 6]
-      // let neighbourNorth = allCells[i - 5]
-      // let neighbourNorthEast = allCells[i - 4]
-      // let neighbourEast = allCells[i + 1]
-      // let neighbourSouthEast = allCells[i + 6]
-      // let neighbourSouth = allCells[i + 5]
-      // let neighbourSouthWest = allCells[i + 4]
-      // let neighbourWest = allCells[i - 1]
-
-      // let neighbours = [
-      //   neighbourNorthWest,
-      //   neighbourNorth,
-      //   neighbourNorthEast,
-      //   neighbourEast,
-      //   neighbourSouthEast,
-      //   neighbourSouth,
-      //   neighbourSouthWest,
-      //   neighbourWest,
-      // ]
-
       // eslint-disable-next-line no-inner-declarations
       function startGame() {
-        let selectedCells = locateClicks.map((x) => {
-          x.status === true
-          return x
-        })
-
         selectedCells.forEach((y) => {
           let findNW = y.id - 6
           let findN = y.id - 5
@@ -108,33 +83,20 @@ export default function gameTrigger() {
           })
 
           let neighbours = [NW, N, NE, E, SE, S, SW, W]
-          console.log('neighbours: ', neighbours)
-          console.log('selected cells: ', selectedCells)
 
           setInterval(() => {
-            for (let z = 0; z < neighbours.length; z++) {
-              let neighbour = neighbours[z]
-              if (neighbour == undefined) {
-                neighbour = { cell: null, status: false, id: null }
-              }
-              // if (2 > neighbour.status == true) {
-              //   console.log('less than two neighbours are active')
-              //   y.status = false
-              // }
-              if (2 <= neighbour.status === true) {
-                console.log('2 or more neighbours are active')
-                y.status = true
-              }
-              //   if (y.status == false) {
-              //     y.cell.style.backgroundColor = 'white'
-              //   }
-              else {
-                console.log('less than two neighbours are active')
-                y.status = false
-                y.cell.style.backgroundColor = 'white'
-              }
+            let trueNeighbours = neighbours.filter((n) => n.status === true)
+            if (trueNeighbours.length >= 2) {
+              console.log('Has two or more active neighbours: ', y)
             }
-          }, 5000)
+            if (trueNeighbours.length < 2) {
+              y.status = false
+              console.log('Has less than two active neighbours: ', y)
+            }
+            if (y.status === false) {
+              y.cell.style.backgroundColor = 'white'
+            }
+          }, 3000)
         })
       }
       const startButton = document.getElementById('startButton')
