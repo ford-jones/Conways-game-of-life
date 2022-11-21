@@ -3,6 +3,38 @@
 // Any live cell with more than three live neighbours dies (referred to as overpopulation or overcrowding).
 // Any live cell with two or three live neighbours lives, unchanged, to the next generation.
 // Any dead cell with exactly three live neighbours will come to life.
+function gameInit() {
+  const table = document.createElement('table')
+  table.id = 'table'
+  const tableBody = document.createElement('tbody')
+
+  for (let i = 0; i < 5; i++) {
+    const tableRow = document.createElement('tr')
+
+    for (let j = 0; j < 5; j++) {
+      const tableCell = document.createElement('td')
+      tableCell.id = 'tableCell'
+
+      const cellText = document.createTextNode('')
+      tableCell.appendChild(cellText)
+      tableRow.appendChild(tableCell)
+    }
+
+    tableBody.appendChild(tableRow)
+  }
+
+  table.appendChild(tableBody)
+
+  document.body.appendChild(table)
+
+  const button = document.createElement('button')
+  button.innerHTML = 'start'
+  button.id = 'startButton'
+
+  document.body.appendChild(button)
+}
+
+gameInit()
 
 export default function gameTrigger() {
   const cells = document.getElementsByTagName('td')
@@ -104,6 +136,5 @@ export default function gameTrigger() {
     }
   }
 }
-// }
 
 gameTrigger()
