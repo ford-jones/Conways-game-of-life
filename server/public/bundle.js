@@ -134,10 +134,10 @@ function gameInit() {
   table.id = 'table';
   var tableBody = document.createElement('tbody');
 
-  for (var i = 0; i < 5; i++) {
+  for (var i = 0; i < 10; i++) {
     var tableRow = document.createElement('tr');
 
-    for (var j = 0; j < 5; j++) {
+    for (var j = 0; j < 9; j++) {
       var tableCell = document.createElement('td');
       tableCell.id = 'tableCell';
       var cellText = document.createTextNode('');
@@ -198,13 +198,13 @@ function gameTrigger() {
 
       function startGame() {
         selectedCells.forEach(function (y) {
-          var findNW = y.id - 6;
-          var findN = y.id - 5;
-          var findNE = y.id - 4;
+          var findNW = y.id - 10;
+          var findN = y.id - 9;
+          var findNE = y.id - 8;
           var findE = y.id + 1;
-          var findSE = y.id + 6;
-          var findS = y.id + 5;
-          var findSW = y.id + 4;
+          var findSE = y.id + 10;
+          var findS = y.id + 9;
+          var findSW = y.id + 8;
           var findW = y.id - 1;
           var N = allCells.find(function (x) {
             return x.id === findN;

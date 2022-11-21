@@ -8,10 +8,10 @@ function gameInit() {
   table.id = 'table'
   const tableBody = document.createElement('tbody')
 
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 10; i++) {
     const tableRow = document.createElement('tr')
 
-    for (let j = 0; j < 5; j++) {
+    for (let j = 0; j < 9; j++) {
       const tableCell = document.createElement('td')
       tableCell.id = 'tableCell'
 
@@ -80,13 +80,13 @@ export default function gameTrigger() {
       // eslint-disable-next-line no-inner-declarations
       function startGame() {
         selectedCells.forEach((y) => {
-          let findNW = y.id - 6
-          let findN = y.id - 5
-          let findNE = y.id - 4
+          let findNW = y.id - 10
+          let findN = y.id - 9
+          let findNE = y.id - 8
           let findE = y.id + 1
-          let findSE = y.id + 6
-          let findS = y.id + 5
-          let findSW = y.id + 4
+          let findSE = y.id + 10
+          let findS = y.id + 9
+          let findSW = y.id + 8
           let findW = y.id - 1
 
           let N = allCells.find((x) => {
