@@ -129,6 +129,34 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 // Any live cell with more than three live neighbours dies (referred to as overpopulation or overcrowding).
 // Any live cell with two or three live neighbours lives, unchanged, to the next generation.
 // Any dead cell with exactly three live neighbours will come to life.
+function gameInit() {
+  var table = document.createElement('table');
+  table.id = 'table';
+  var tableBody = document.createElement('tbody');
+
+  for (var i = 0; i < 10; i++) {
+    var tableRow = document.createElement('tr');
+
+    for (var j = 0; j < 9; j++) {
+      var tableCell = document.createElement('td');
+      tableCell.id = 'tableCell';
+      var cellText = document.createTextNode('');
+      tableCell.appendChild(cellText);
+      tableRow.appendChild(tableCell);
+    }
+
+    tableBody.appendChild(tableRow);
+  }
+
+  table.appendChild(tableBody);
+  document.body.appendChild(table);
+  var button = document.createElement('button');
+  button.innerHTML = 'start';
+  button.id = 'startButton';
+  document.body.appendChild(button);
+}
+
+gameInit();
 function gameTrigger() {
   var cells = document.getElementsByTagName('td');
 
@@ -170,13 +198,13 @@ function gameTrigger() {
 
       function startGame() {
         selectedCells.forEach(function (y) {
-          var findNW = y.id - 6;
-          var findN = y.id - 5;
-          var findNE = y.id - 4;
+          var findNW = y.id - 10;
+          var findN = y.id - 9;
+          var findNE = y.id - 8;
           var findE = y.id + 1;
-          var findSE = y.id + 6;
-          var findS = y.id + 5;
-          var findSW = y.id + 4;
+          var findSE = y.id + 10;
+          var findS = y.id + 9;
+          var findSW = y.id + 8;
           var findW = y.id - 1;
           var N = allCells.find(function (x) {
             return x.id === findN;
@@ -232,8 +260,7 @@ function gameTrigger() {
       _loop(i);
     }
   }
-} // }
-
+}
 gameTrigger();
 
 /***/ }),
