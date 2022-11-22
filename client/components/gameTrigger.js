@@ -40,9 +40,9 @@ export default function gameTrigger() {
   const cells = document.getElementsByTagName('td')
   let cellArr = [...cells]
 
-  let allCells = cellArr.map((innactiveCell, i) => {
+  let allCells = cellArr.map((foundCell, i) => {
     return {
-      cell: innactiveCell,
+      cell: foundCell,
       status: false,
       id: i,
     }
@@ -121,7 +121,7 @@ export default function gameTrigger() {
             if (trueNeighbours.length >= 2) {
               console.log('Has two or more active neighbours: ', y)
             }
-            if (trueNeighbours.length < 2) {
+            if (trueNeighbours.length < 2 || trueNeighbours.length > 3) {
               y.status = false
               console.log('Has less than two active neighbours: ', y)
             }

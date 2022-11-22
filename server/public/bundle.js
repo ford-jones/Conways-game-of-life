@@ -162,9 +162,9 @@ function gameTrigger() {
 
   var cellArr = _toConsumableArray(cells);
 
-  var allCells = cellArr.map(function (innactiveCell, i) {
+  var allCells = cellArr.map(function (foundCell, i) {
     return {
-      cell: innactiveCell,
+      cell: foundCell,
       status: false,
       id: i
     };
@@ -240,7 +240,7 @@ function gameTrigger() {
               console.log('Has two or more active neighbours: ', y);
             }
 
-            if (trueNeighbours.length < 2) {
+            if (trueNeighbours.length < 2 || trueNeighbours.length > 3) {
               y.status = false;
               console.log('Has less than two active neighbours: ', y);
             }
