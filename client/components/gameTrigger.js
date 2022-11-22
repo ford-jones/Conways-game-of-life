@@ -47,13 +47,53 @@ export default function gameTrigger() {
       id: i,
     }
   })
+  for (let i = 0; i < allCells.length; i++) {
+    let checkForInt = allCells[i].id / 10
+    if (
+      (allCells[i].id >= 0 && allCells[i].id <= 9) ||
+      Number.isInteger(checkForInt) ||
+      allCells[i].id === 19 ||
+      allCells[i].id === 29 ||
+      allCells[i].id === 39 ||
+      allCells[i].id === 49 ||
+      allCells[i].id === 59 ||
+      allCells[i].id === 69 ||
+      allCells[i].id === 79 ||
+      allCells[i].id === 89 ||
+      allCells[i].id === 99 ||
+      (allCells[i].id >= 90 && allCells[i].id <= 99)
+    ) {
+      allCells[i].status = false
+      allCells[i].cell.style.backgroundColor = 'black'
+    }
+  }
 
   document.addEventListener('click', onClick)
 
   function onClick(e) {
     for (let i = 0; i < allCells.length; i++) {
-      let checkForInt = allCells[i].id / 10
+      if (e.target === allCells[i].cell) {
+        allCells[i].status = true
 
+        /*------Random cells-----*/
+
+        for (let j = 0; j < 15; j++) {
+          let rng = Math.floor(Math.random() * allCells.length)
+          let randomCells = allCells.find((x, i) => i === rng)
+
+          randomCells.cell.style.backgroundColor = 'red'
+          randomCells.status = true
+        }
+        /*-----------------------*/
+      }
+
+      if (allCells[i].status === true) {
+        allCells[i].cell.style.backgroundColor = 'red'
+      } else {
+        console.error()
+      }
+
+      let checkForInt = allCells[i].id / 10
       if (
         (allCells[i].id >= 0 && allCells[i].id <= 9) ||
         Number.isInteger(checkForInt) ||
@@ -71,26 +111,6 @@ export default function gameTrigger() {
         allCells[i].status = false
         allCells[i].cell.style.backgroundColor = 'black'
       }
-      if (e.target === allCells[i].cell) {
-        allCells[i].status = true
-
-        /*------Random cells-----*/
-
-        // for (let j = 0; j < 5; j++) {
-        //   let rng = Math.floor(Math.random() * allCells.length)
-        //   let randomCells = allCells.find((x, i) => i === rng)
-
-        //   randomCells.cell.style.backgroundColor = 'red'
-        //   randomCells.status = true
-        // }
-        /*-----------------------*/
-      }
-
-      if (allCells[i].status === true) {
-        allCells[i].cell.style.backgroundColor = 'red'
-      } else {
-        console.error()
-      }
 
       let liveCells = allCells.filter((x) => {
         return x.status === true
@@ -100,9 +120,12 @@ export default function gameTrigger() {
         return z.status === false
       })
 
+      const startButton = document.getElementById('startButton')
+      startButton.addEventListener('click', startGame)
+
       // eslint-disable-next-line no-inner-declarations
       function startGame() {
-        setInterval(() => {
+        setTimeout(() => {
           liveCells.forEach((y) => {
             let findNW = y.id - 11
             let findN = y.id - 10
@@ -158,6 +181,11 @@ export default function gameTrigger() {
               y.status = false
               // console.log('dead: ', y)
             }
+            if (liveCells.length === 0) {
+              allCells = allCells.map((x) => {
+                return (x.status = false)
+              })
+            }
             if (y.status === false) {
               y.cell.style.backgroundColor = 'white'
             }
@@ -211,10 +239,8 @@ export default function gameTrigger() {
               // console.log('living: ', y)
             }
           })
-        }, 1000)
+        }, 200)
       }
-      const startButton = document.getElementById('startButton')
-      startButton.addEventListener('click', startGame)
     }
   }
 }

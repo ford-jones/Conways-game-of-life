@@ -169,34 +169,51 @@ function gameTrigger() {
       id: i
     };
   });
+
+  for (var i = 0; i < allCells.length; i++) {
+    var checkForInt = allCells[i].id / 10;
+
+    if (allCells[i].id >= 0 && allCells[i].id <= 9 || Number.isInteger(checkForInt) || allCells[i].id === 19 || allCells[i].id === 29 || allCells[i].id === 39 || allCells[i].id === 49 || allCells[i].id === 59 || allCells[i].id === 69 || allCells[i].id === 79 || allCells[i].id === 89 || allCells[i].id === 99 || allCells[i].id >= 90 && allCells[i].id <= 99) {
+      allCells[i].status = false;
+      allCells[i].cell.style.backgroundColor = 'black';
+    }
+  }
+
   document.addEventListener('click', onClick);
 
   function onClick(e) {
-    var _loop = function _loop(i) {
-      var checkForInt = allCells[i].id / 10;
-
-      if (allCells[i].id >= 0 && allCells[i].id <= 9 || Number.isInteger(checkForInt) || allCells[i].id === 19 || allCells[i].id === 29 || allCells[i].id === 39 || allCells[i].id === 49 || allCells[i].id === 59 || allCells[i].id === 69 || allCells[i].id === 79 || allCells[i].id === 89 || allCells[i].id === 99 || allCells[i].id >= 90 && allCells[i].id <= 99) {
-        allCells[i].status = false;
-        allCells[i].cell.style.backgroundColor = 'black';
-      }
-
-      if (e.target === allCells[i].cell) {
-        allCells[i].status = true;
+    var _loop = function _loop(_i) {
+      if (e.target === allCells[_i].cell) {
+        allCells[_i].status = true;
         /*------Random cells-----*/
-        // for (let j = 0; j < 5; j++) {
-        //   let rng = Math.floor(Math.random() * allCells.length)
-        //   let randomCells = allCells.find((x, i) => i === rng)
-        //   randomCells.cell.style.backgroundColor = 'red'
-        //   randomCells.status = true
-        // }
 
+        var _loop2 = function _loop2(j) {
+          var rng = Math.floor(Math.random() * allCells.length);
+          var randomCells = allCells.find(function (x, i) {
+            return i === rng;
+          });
+          randomCells.cell.style.backgroundColor = 'red';
+          randomCells.status = true;
+        };
+
+        for (var j = 0; j < 15; j++) {
+          _loop2(j);
+        }
         /*-----------------------*/
+
       }
 
-      if (allCells[i].status === true) {
-        allCells[i].cell.style.backgroundColor = 'red';
+      if (allCells[_i].status === true) {
+        allCells[_i].cell.style.backgroundColor = 'red';
       } else {
         console.error();
+      }
+
+      var checkForInt = allCells[_i].id / 10;
+
+      if (allCells[_i].id >= 0 && allCells[_i].id <= 9 || Number.isInteger(checkForInt) || allCells[_i].id === 19 || allCells[_i].id === 29 || allCells[_i].id === 39 || allCells[_i].id === 49 || allCells[_i].id === 59 || allCells[_i].id === 69 || allCells[_i].id === 79 || allCells[_i].id === 89 || allCells[_i].id === 99 || allCells[_i].id >= 90 && allCells[_i].id <= 99) {
+        allCells[_i].status = false;
+        allCells[_i].cell.style.backgroundColor = 'black';
       }
 
       var liveCells = allCells.filter(function (x) {
@@ -204,10 +221,12 @@ function gameTrigger() {
       });
       var deadCells = allCells.filter(function (z) {
         return z.status === false;
-      }); // eslint-disable-next-line no-inner-declarations
+      });
+      var startButton = document.getElementById('startButton');
+      startButton.addEventListener('click', startGame); // eslint-disable-next-line no-inner-declarations
 
       function startGame() {
-        setInterval(function () {
+        setTimeout(function () {
           liveCells.forEach(function (y) {
             var findNW = y.id - 11;
             var findN = y.id - 10;
@@ -261,6 +280,12 @@ function gameTrigger() {
 
             if (trueNeighbours.length < 2 || trueNeighbours.length > 3 || trueNeighbours.length === 0) {
               y.status = false; // console.log('dead: ', y)
+            }
+
+            if (liveCells.length === 0) {
+              allCells = allCells.map(function (x) {
+                return x.status = false;
+              });
             }
 
             if (y.status === false) {
@@ -317,15 +342,12 @@ function gameTrigger() {
               y.status = true; // console.log('living: ', y)
             }
           });
-        }, 1000);
+        }, 200);
       }
-
-      var startButton = document.getElementById('startButton');
-      startButton.addEventListener('click', startGame);
     };
 
-    for (var i = 0; i < allCells.length; i++) {
-      _loop(i);
+    for (var _i = 0; _i < allCells.length; _i++) {
+      _loop(_i);
     }
   }
 }
