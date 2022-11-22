@@ -162,9 +162,9 @@ function gameTrigger() {
 
   var cellArr = _toConsumableArray(cells);
 
-  var allCells = cellArr.map(function (innactiveCell, i) {
+  var allCells = cellArr.map(function (foundCell, i) {
     return {
-      cell: innactiveCell,
+      cell: foundCell,
       status: false,
       id: i
     };
@@ -206,11 +206,11 @@ function gameTrigger() {
           var findS = y.id + 9;
           var findSW = y.id + 8;
           var findW = y.id - 1;
-          var N = allCells.find(function (x) {
-            return x.id === findN;
-          });
           var NW = allCells.find(function (x) {
             return x.id === findNW;
+          });
+          var N = allCells.find(function (x) {
+            return x.id === findN;
           });
           var NE = allCells.find(function (x) {
             return x.id === findNE;
@@ -237,18 +237,19 @@ function gameTrigger() {
             });
 
             if (trueNeighbours.length >= 2) {
-              console.log('Has two or more active neighbours: ', y);
+              console.log('living: ', y);
+              y.status = true;
             }
 
-            if (trueNeighbours.length < 2) {
+            if (trueNeighbours.length < 2 || trueNeighbours.length > 3) {
               y.status = false;
-              console.log('Has less than two active neighbours: ', y);
+              console.log('dead: ', y);
             }
 
             if (y.status === false) {
               y.cell.style.backgroundColor = 'white';
             }
-          }, 3000);
+          }, 1000);
         });
       }
 

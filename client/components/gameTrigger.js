@@ -40,9 +40,9 @@ export default function gameTrigger() {
   const cells = document.getElementsByTagName('td')
   let cellArr = [...cells]
 
-  let allCells = cellArr.map((innactiveCell, i) => {
+  let allCells = cellArr.map((foundCell, i) => {
     return {
-      cell: innactiveCell,
+      cell: foundCell,
       status: false,
       id: i,
     }
@@ -89,11 +89,11 @@ export default function gameTrigger() {
           let findSW = y.id + 8
           let findW = y.id - 1
 
-          let N = allCells.find((x) => {
-            return x.id === findN
-          })
           let NW = allCells.find((x) => {
             return x.id === findNW
+          })
+          let N = allCells.find((x) => {
+            return x.id === findN
           })
           let NE = allCells.find((x) => {
             return x.id === findNE
@@ -119,16 +119,17 @@ export default function gameTrigger() {
           setInterval(() => {
             let trueNeighbours = neighbours.filter((n) => n.status === true)
             if (trueNeighbours.length >= 2) {
-              console.log('Has two or more active neighbours: ', y)
+              console.log('living: ', y)
+              y.status = true
             }
-            if (trueNeighbours.length < 2) {
+            if (trueNeighbours.length < 2 || trueNeighbours.length > 3) {
               y.status = false
-              console.log('Has less than two active neighbours: ', y)
+              console.log('dead: ', y)
             }
             if (y.status === false) {
               y.cell.style.backgroundColor = 'white'
             }
-          }, 3000)
+          }, 1000)
         })
       }
       const startButton = document.getElementById('startButton')
