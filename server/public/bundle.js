@@ -137,7 +137,7 @@ function gameInit() {
   for (var i = 0; i < 10; i++) {
     var tableRow = document.createElement('tr');
 
-    for (var j = 0; j < 9; j++) {
+    for (var j = 0; j < 10; j++) {
       var tableCell = document.createElement('td');
       tableCell.id = 'tableCell';
       var cellText = document.createTextNode('');
@@ -173,6 +173,13 @@ function gameTrigger() {
 
   function onClick(e) {
     var _loop = function _loop(i) {
+      var checkForInt = allCells[i].id / 10;
+
+      if (allCells[i].id >= 0 && allCells[i].id <= 9 || Number.isInteger(checkForInt) || allCells[i].id === 19 || allCells[i].id === 29 || allCells[i].id === 39 || allCells[i].id === 49 || allCells[i].id === 59 || allCells[i].id === 69 || allCells[i].id === 79 || allCells[i].id === 89 || allCells[i].id === 99 || allCells[i].id >= 90 && allCells[i].id <= 99) {
+        allCells[i].status = false;
+        allCells[i].cell.style.backgroundColor = 'black';
+      }
+
       if (e.target === allCells[i].cell) {
         allCells[i].status = true;
         /*------Random cells-----*/
@@ -192,65 +199,125 @@ function gameTrigger() {
         console.error();
       }
 
-      var selectedCells = allCells.filter(function (x) {
+      var liveCells = allCells.filter(function (x) {
         return x.status === true;
+      });
+      var deadCells = allCells.filter(function (z) {
+        return z.status === false;
       }); // eslint-disable-next-line no-inner-declarations
 
       function startGame() {
-        selectedCells.forEach(function (y) {
-          var findNW = y.id - 10;
-          var findN = y.id - 9;
-          var findNE = y.id - 8;
-          var findE = y.id + 1;
-          var findSE = y.id + 10;
-          var findS = y.id + 9;
-          var findSW = y.id + 8;
-          var findW = y.id - 1;
-          var NW = allCells.find(function (x) {
-            return x.id === findNW;
-          });
-          var N = allCells.find(function (x) {
-            return x.id === findN;
-          });
-          var NE = allCells.find(function (x) {
-            return x.id === findNE;
-          });
-          var E = allCells.find(function (x) {
-            return x.id === findE;
-          });
-          var SE = allCells.find(function (x) {
-            return x.id === findSE;
-          });
-          var S = allCells.find(function (x) {
-            return x.id === findS;
-          });
-          var SW = allCells.find(function (x) {
-            return x.id === findSW;
-          });
-          var W = allCells.find(function (x) {
-            return x.id === findW;
-          });
-          var neighbours = [NW, N, NE, E, SE, S, SW, W];
-          setInterval(function () {
+        setInterval(function () {
+          liveCells.forEach(function (y) {
+            var findNW = y.id - 11;
+            var findN = y.id - 10;
+            var findNE = y.id - 9;
+            var findE = y.id + 1;
+            var findSE = y.id + 11;
+            var findS = y.id + 10;
+            var findSW = y.id + 9;
+            var findW = y.id - 1;
+            var NW = allCells.find(function (x) {
+              return x.id === findNW;
+            });
+            var N = allCells.find(function (x) {
+              return x.id === findN;
+            });
+            var NE = allCells.find(function (x) {
+              return x.id === findNE;
+            });
+            var E = allCells.find(function (x) {
+              return x.id === findE;
+            });
+            var SE = allCells.find(function (x) {
+              return x.id === findSE;
+            });
+            var S = allCells.find(function (x) {
+              return x.id === findS;
+            });
+            var SW = allCells.find(function (x) {
+              return x.id === findSW;
+            });
+            var W = allCells.find(function (x) {
+              return x.id === findW;
+            });
+            var neighbours = [NW, N, NE, E, SE, S, SW, W];
             var trueNeighbours = neighbours.filter(function (n) {
+              if (n === undefined) {
+                n = {
+                  cell: null,
+                  status: false,
+                  id: null
+                };
+              }
+
               return n.status === true;
             });
 
             if (trueNeighbours.length >= 2) {
-              console.log('living: ', y);
+              // console.log('living: ', y)
               y.status = true;
             }
 
-            if (trueNeighbours.length < 2 || trueNeighbours.length > 3) {
-              y.status = false;
-              console.log('dead: ', y);
+            if (trueNeighbours.length < 2 || trueNeighbours.length > 3 || trueNeighbours.length === 0) {
+              y.status = false; // console.log('dead: ', y)
             }
 
             if (y.status === false) {
               y.cell.style.backgroundColor = 'white';
             }
-          }, 1000);
-        });
+          });
+          deadCells.forEach(function (y) {
+            var findNW = y.id - 11;
+            var findN = y.id - 10;
+            var findNE = y.id - 9;
+            var findE = y.id + 1;
+            var findSE = y.id + 11;
+            var findS = y.id + 10;
+            var findSW = y.id + 9;
+            var findW = y.id - 1;
+            var NW = allCells.find(function (x) {
+              return x.id === findNW;
+            });
+            var N = allCells.find(function (x) {
+              return x.id === findN;
+            });
+            var NE = allCells.find(function (x) {
+              return x.id === findNE;
+            });
+            var E = allCells.find(function (x) {
+              return x.id === findE;
+            });
+            var SE = allCells.find(function (x) {
+              return x.id === findSE;
+            });
+            var S = allCells.find(function (x) {
+              return x.id === findS;
+            });
+            var SW = allCells.find(function (x) {
+              return x.id === findSW;
+            });
+            var W = allCells.find(function (x) {
+              return x.id === findW;
+            });
+            var neighbours = [NW, N, NE, E, SE, S, SW, W];
+            var trueNeighbours = neighbours.filter(function (n) {
+              if (n === undefined) {
+                n = {
+                  cell: null,
+                  status: false,
+                  id: null
+                };
+              }
+
+              return n.status === true;
+            });
+
+            if (trueNeighbours.length === 3) {
+              y.status = true; // console.log('living: ', y)
+            }
+          });
+        }, 1000);
       }
 
       var startButton = document.getElementById('startButton');
