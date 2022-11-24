@@ -129,6 +129,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 // Any live cell with more than three live neighbours dies (referred to as overpopulation or overcrowding).
 // Any live cell with two or three live neighbours lives, unchanged, to the next generation.
 // Any dead cell with exactly three live neighbours will come to life.
+
+/*-------------MAKE BOARD & BUTTON-------------*/
 function gameInit() {
   var table = document.createElement('table');
   table.id = 'table';
@@ -157,6 +159,8 @@ function gameInit() {
 }
 
 gameInit();
+/*--------------------------------------------*/
+
 function gameTrigger() {
   var cells = document.getElementsByTagName('td');
 
@@ -169,6 +173,7 @@ function gameTrigger() {
       id: i
     };
   });
+  /*------------MAKE BORDER---------------*/
 
   for (var i = 0; i < allCells.length; i++) {
     var checkForInt = allCells[i].id / 10;
@@ -178,6 +183,8 @@ function gameTrigger() {
       allCells[i].cell.style.backgroundColor = 'black';
     }
   }
+  /*----------------------------------------*/
+
 
   document.addEventListener('click', onClick);
 
@@ -186,21 +193,14 @@ function gameTrigger() {
       if (e.target === allCells[_i].cell) {
         allCells[_i].status = true;
         /*------Random cells-----*/
+        // for (let j = 0; j < 15; j++) {
+        //   let rng = Math.floor(Math.random() * allCells.length)
+        //   let randomCells = allCells.find((x, i) => i === rng)
+        //   randomCells.cell.style.backgroundColor = 'red'
+        //   randomCells.status = true
+        // }
 
-        var _loop2 = function _loop2(j) {
-          var rng = Math.floor(Math.random() * allCells.length);
-          var randomCells = allCells.find(function (x, i) {
-            return i === rng;
-          });
-          randomCells.cell.style.backgroundColor = 'red';
-          randomCells.status = true;
-        };
-
-        for (var j = 0; j < 15; j++) {
-          _loop2(j);
-        }
         /*-----------------------*/
-
       }
 
       if (allCells[_i].status === true) {
@@ -216,18 +216,15 @@ function gameTrigger() {
         allCells[_i].cell.style.backgroundColor = 'black';
       }
 
-      var liveCells = allCells.filter(function (x) {
+      var selectedCells = allCells.filter(function (x) {
         return x.status === true;
-      });
-      var deadCells = allCells.filter(function (z) {
-        return z.status === false;
       });
       var startButton = document.getElementById('startButton');
       startButton.addEventListener('click', startGame); // eslint-disable-next-line no-inner-declarations
 
       function startGame() {
         setTimeout(function () {
-          liveCells.forEach(function (y) {
+          selectedCells.forEach(function (y) {
             var findNW = y.id - 11;
             var findN = y.id - 10;
             var findNE = y.id - 9;
@@ -276,72 +273,77 @@ function gameTrigger() {
             if (trueNeighbours.length >= 2) {
               // console.log('living: ', y)
               y.status = true;
+            } else if (trueNeighbours.length < 2 || trueNeighbours.length > 3 || trueNeighbours.length === 0) {
+              y.status = false;
+              y.cell.style.backgroundColor = 'white'; // console.log('dead: ', y)
             }
+            /*--------CLEANUP BOARD----------*/
+            // if (selectedCells.length === 0) {
+            //   allCells = allCells.map((x) => {
+            //     return (x.status = false)
+            //   })
+            // }
 
-            if (trueNeighbours.length < 2 || trueNeighbours.length > 3 || trueNeighbours.length === 0) {
-              y.status = false; // console.log('dead: ', y)
-            }
+            /*-------------------------------*/
+            // let falseNeighbours = neighbours.filter((m) => {
+            //   if (m === undefined) {
+            //     m = { cell: null, status: null, id: null }
+            //   }
+            //   return m.status === false
+            // })
 
-            if (liveCells.length === 0) {
-              allCells = allCells.map(function (x) {
-                return x.status = false;
-              });
-            }
+            /*---------DEADCELL LOOP-----------*/
+            // let deadCells = allCells.filter((z) => {
+            //   return z.status === false
+            // })
+            // falseNeighbours.forEach((y) => {
+            //   let findNW = y.id - 11
+            //   let findN = y.id - 10
+            //   let findNE = y.id - 9
+            //   let findE = y.id + 1
+            //   let findSE = y.id + 11
+            //   let findS = y.id + 10
+            //   let findSW = y.id + 9
+            //   let findW = y.id - 1
+            //   let NW = allCells.find((x) => {
+            //     return x.id === findNW
+            //   })
+            //   let N = allCells.find((x) => {
+            //     return x.id === findN
+            //   })
+            //   let NE = allCells.find((x) => {
+            //     return x.id === findNE
+            //   })
+            //   let E = allCells.find((x) => {
+            //     return x.id === findE
+            //   })
+            //   let SE = allCells.find((x) => {
+            //     return x.id === findSE
+            //   })
+            //   let S = allCells.find((x) => {
+            //     return x.id === findS
+            //   })
+            //   let SW = allCells.find((x) => {
+            //     return x.id === findSW
+            //   })
+            //   let W = allCells.find((x) => {
+            //     return x.id === findW
+            //   })
+            //   let neighbours = [NW, N, NE, E, SE, S, SW, W]
+            //   let trueNeighbours = neighbours.filter((n) => {
+            //     if (n === undefined) {
+            //       n = { cell: null, status: false, id: null }
+            //     }
+            //     return n.status === true
+            //   })
+            //   if (trueNeighbours.length === 3) {
+            //     y.status = true
+            //     // console.log('living: ', y)
+            //   }
+            // })
 
-            if (y.status === false) {
-              y.cell.style.backgroundColor = 'white';
-            }
           });
-          deadCells.forEach(function (y) {
-            var findNW = y.id - 11;
-            var findN = y.id - 10;
-            var findNE = y.id - 9;
-            var findE = y.id + 1;
-            var findSE = y.id + 11;
-            var findS = y.id + 10;
-            var findSW = y.id + 9;
-            var findW = y.id - 1;
-            var NW = allCells.find(function (x) {
-              return x.id === findNW;
-            });
-            var N = allCells.find(function (x) {
-              return x.id === findN;
-            });
-            var NE = allCells.find(function (x) {
-              return x.id === findNE;
-            });
-            var E = allCells.find(function (x) {
-              return x.id === findE;
-            });
-            var SE = allCells.find(function (x) {
-              return x.id === findSE;
-            });
-            var S = allCells.find(function (x) {
-              return x.id === findS;
-            });
-            var SW = allCells.find(function (x) {
-              return x.id === findSW;
-            });
-            var W = allCells.find(function (x) {
-              return x.id === findW;
-            });
-            var neighbours = [NW, N, NE, E, SE, S, SW, W];
-            var trueNeighbours = neighbours.filter(function (n) {
-              if (n === undefined) {
-                n = {
-                  cell: null,
-                  status: false,
-                  id: null
-                };
-              }
-
-              return n.status === true;
-            });
-
-            if (trueNeighbours.length === 3) {
-              y.status = true; // console.log('living: ', y)
-            }
-          });
+          /*----------------------------------*/
         }, 200);
       }
     };

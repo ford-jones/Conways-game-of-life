@@ -3,6 +3,8 @@
 // Any live cell with more than three live neighbours dies (referred to as overpopulation or overcrowding).
 // Any live cell with two or three live neighbours lives, unchanged, to the next generation.
 // Any dead cell with exactly three live neighbours will come to life.
+
+/*-------------MAKE BOARD & BUTTON-------------*/
 function gameInit() {
   const table = document.createElement('table')
   table.id = 'table'
@@ -35,6 +37,7 @@ function gameInit() {
 }
 
 gameInit()
+/*--------------------------------------------*/
 
 export default function gameTrigger() {
   const cells = document.getElementsByTagName('td')
@@ -47,6 +50,7 @@ export default function gameTrigger() {
       id: i,
     }
   })
+  /*------------MAKE BORDER---------------*/
   for (let i = 0; i < allCells.length; i++) {
     let checkForInt = allCells[i].id / 10
     if (
@@ -67,6 +71,7 @@ export default function gameTrigger() {
       allCells[i].cell.style.backgroundColor = 'black'
     }
   }
+  /*----------------------------------------*/
 
   document.addEventListener('click', onClick)
 
@@ -77,13 +82,13 @@ export default function gameTrigger() {
 
         /*------Random cells-----*/
 
-        for (let j = 0; j < 15; j++) {
-          let rng = Math.floor(Math.random() * allCells.length)
-          let randomCells = allCells.find((x, i) => i === rng)
+        // for (let j = 0; j < 15; j++) {
+        //   let rng = Math.floor(Math.random() * allCells.length)
+        //   let randomCells = allCells.find((x, i) => i === rng)
 
-          randomCells.cell.style.backgroundColor = 'red'
-          randomCells.status = true
-        }
+        //   randomCells.cell.style.backgroundColor = 'red'
+        //   randomCells.status = true
+        // }
         /*-----------------------*/
       }
 
@@ -112,12 +117,8 @@ export default function gameTrigger() {
         allCells[i].cell.style.backgroundColor = 'black'
       }
 
-      let liveCells = allCells.filter((x) => {
+      let selectedCells = allCells.filter((x) => {
         return x.status === true
-      })
-
-      let deadCells = allCells.filter((z) => {
-        return z.status === false
       })
 
       const startButton = document.getElementById('startButton')
@@ -126,7 +127,7 @@ export default function gameTrigger() {
       // eslint-disable-next-line no-inner-declarations
       function startGame() {
         setTimeout(() => {
-          liveCells.forEach((y) => {
+          selectedCells.forEach((y) => {
             let findNW = y.id - 11
             let findN = y.id - 10
             let findNE = y.id - 9
@@ -172,73 +173,87 @@ export default function gameTrigger() {
             if (trueNeighbours.length >= 2) {
               // console.log('living: ', y)
               y.status = true
-            }
-            if (
+            } else if (
               trueNeighbours.length < 2 ||
               trueNeighbours.length > 3 ||
               trueNeighbours.length === 0
             ) {
               y.status = false
+              y.cell.style.backgroundColor = 'white'
               // console.log('dead: ', y)
             }
-            if (liveCells.length === 0) {
-              allCells = allCells.map((x) => {
-                return (x.status = false)
-              })
-            }
-            if (y.status === false) {
-              y.cell.style.backgroundColor = 'white'
-            }
+            /*--------CLEANUP BOARD----------*/
+
+            // if (selectedCells.length === 0) {
+            //   allCells = allCells.map((x) => {
+            //     return (x.status = false)
+            //   })
+            // }
+
+            /*-------------------------------*/
+
+            // let falseNeighbours = neighbours.filter((m) => {
+            //   if (m === undefined) {
+            //     m = { cell: null, status: null, id: null }
+            //   }
+            //   return m.status === false
+            // })
+            /*---------DEADCELL LOOP-----------*/
+
+            // let deadCells = allCells.filter((z) => {
+            //   return z.status === false
+            // })
+
+            // falseNeighbours.forEach((y) => {
+            //   let findNW = y.id - 11
+            //   let findN = y.id - 10
+            //   let findNE = y.id - 9
+            //   let findE = y.id + 1
+            //   let findSE = y.id + 11
+            //   let findS = y.id + 10
+            //   let findSW = y.id + 9
+            //   let findW = y.id - 1
+
+            //   let NW = allCells.find((x) => {
+            //     return x.id === findNW
+            //   })
+            //   let N = allCells.find((x) => {
+            //     return x.id === findN
+            //   })
+            //   let NE = allCells.find((x) => {
+            //     return x.id === findNE
+            //   })
+            //   let E = allCells.find((x) => {
+            //     return x.id === findE
+            //   })
+            //   let SE = allCells.find((x) => {
+            //     return x.id === findSE
+            //   })
+            //   let S = allCells.find((x) => {
+            //     return x.id === findS
+            //   })
+            //   let SW = allCells.find((x) => {
+            //     return x.id === findSW
+            //   })
+            //   let W = allCells.find((x) => {
+            //     return x.id === findW
+            //   })
+
+            //   let neighbours = [NW, N, NE, E, SE, S, SW, W]
+
+            //   let trueNeighbours = neighbours.filter((n) => {
+            //     if (n === undefined) {
+            //       n = { cell: null, status: false, id: null }
+            //     }
+            //     return n.status === true
+            //   })
+            //   if (trueNeighbours.length === 3) {
+            //     y.status = true
+            //     // console.log('living: ', y)
+            //   }
+            // })
           })
-
-          deadCells.forEach((y) => {
-            let findNW = y.id - 11
-            let findN = y.id - 10
-            let findNE = y.id - 9
-            let findE = y.id + 1
-            let findSE = y.id + 11
-            let findS = y.id + 10
-            let findSW = y.id + 9
-            let findW = y.id - 1
-
-            let NW = allCells.find((x) => {
-              return x.id === findNW
-            })
-            let N = allCells.find((x) => {
-              return x.id === findN
-            })
-            let NE = allCells.find((x) => {
-              return x.id === findNE
-            })
-            let E = allCells.find((x) => {
-              return x.id === findE
-            })
-            let SE = allCells.find((x) => {
-              return x.id === findSE
-            })
-            let S = allCells.find((x) => {
-              return x.id === findS
-            })
-            let SW = allCells.find((x) => {
-              return x.id === findSW
-            })
-            let W = allCells.find((x) => {
-              return x.id === findW
-            })
-
-            let neighbours = [NW, N, NE, E, SE, S, SW, W]
-
-            let trueNeighbours = neighbours.filter((n) => {
-              if (n === undefined) {
-                n = { cell: null, status: false, id: null }
-              }
-              return n.status === true
-            })
-            if (trueNeighbours.length === 3) {
-              y.status = true
-              // console.log('living: ', y)
-            }
-          })
+          /*----------------------------------*/
         }, 200)
       }
     }
